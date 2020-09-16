@@ -6,8 +6,8 @@
 </head>
 <body>
 <form action="/email/form" method="post">
-    email : <input type="text" name="email"> <br />
-    password : <input type="password" name="password"> <br />
+    email : <input type="text" name="email"> <br/>
+    password : <input type="password" name="password"> <br/>
 </form>
 
 <button class="ajaxsend">login</button>
@@ -15,12 +15,12 @@
 <div class="result"></div>
 
 <script>
-    document.querySelector('.ajaxsend').addEventListener('click', function (){
+    document.querySelector('.ajaxsend').addEventListener('click', function () {
         var email = document.getElementsByName('email')[0].value;
         var password = document.getElementsByName('password')[0].value;
-        sendAjax('http://localhost:3000/login', {'email' : email, 'password' : password});
+        sendAjax('http://localhost:3000/login', {'email': email, 'password': password});
 
-        function sendAjax(url, data){
+        function sendAjax(url, data) {
             data = JSON.stringify(data);
 
             var xhr = new XMLHttpRequest();
@@ -28,12 +28,18 @@
             xhr.setRequestHeader('Content-Type', "application/json");
             xhr.send(data);
 
-            xhr.addEventListener('load', function() {
+            xhr.addEventListener('load', function () {
                 var result = JSON.parse(xhr.responseText);
                 var resultDiv = document.querySelector(".result");
 
-                if(result.email) resultDiv.innerHTML = "welcome, "+result.email + "!!";
-                else resultDiv.innerHTML = result;
+                if (result.email) {
+                   // resultDiv.innerHTML = "welcome, " + result.email + "!!";
+                    window.location.href="/main"
+                } else if (xhr.status === 401) {
+                    resultDiv.innerHTML = result + "<div class='signup'><a href='/join'>Sign up</a></div>"
+                } else {
+                    resultDiv.innerHTML = result;
+                }
             });
         }
     })
