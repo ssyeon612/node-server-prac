@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
     var msg;
     var errMsg = req.flash('error')
     if (errMsg) msg = errMsg;
-    res.render('join.ejs', {'message': msg});
+    res.render('login.ejs', {'message': msg});
 })
 
 //passport.serialize
@@ -37,7 +37,7 @@ passport.deserializeUser(function(id, done) {
     done(null, id);
 })
 
-passport.use('local-join', new LocalStrategy({
+passport.use('local-login', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback: true
